@@ -2,13 +2,13 @@ name: Deploy portfolio to GitHub Pages
 
 on:
   push:
-    branches: ["main"]     
-  workflow_dispatch:       
+    branches: ["main"]
+  workflow_dispatch:
 
 permissions:
-  pages: write                # Needed to deploy Pages
-  id-token: write             # Needed for GitHub Actions
-  contents: read              # Needed for checking out repo
+  pages: write
+  id-token: write
+  contents: read
 
 jobs:
   deploy:
@@ -28,7 +28,7 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # 4️⃣ Build the site (Parcel outputs to dist/)
+      # 4️⃣ Build site (Parcel outputs to dist/)
       - name: Build site
         run: npm run build
 
@@ -40,7 +40,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          artifact-path: dist
+          path: dist           # ✅ Correct input name
 
       # 7️⃣ Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
