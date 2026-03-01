@@ -2,8 +2,8 @@ name: Deploy portfolio to GitHub Pages
 
 on:
   push:
-    branches: ["main"]       # Run on pushes to main
-  workflow_dispatch:          # Allow manual runs
+    branches: ["main"]     
+  workflow_dispatch:       
 
 permissions:
   pages: write                # Needed to deploy Pages
