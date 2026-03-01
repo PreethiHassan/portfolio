@@ -1,34 +1,48 @@
-name: Deploy static content to Pages
+name: Deploy portfolio to GitHub Pages
 
 on:
   push:
-    branches: ["main"]
-  workflow_dispatch:
+    branches: ["main"]       # Run on pushes to main
+  workflow_dispatch:          # Allow manual runs
 
 permissions:
-  pages: write
-  id-token: write
-  contents: read
+  pages: write                # Needed to deploy Pages
+  id-token: write             # Needed for GitHub Actions
+  contents: read              # Needed for checking out repo
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      # 1️⃣ Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
+      # 2️⃣ Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
+      # 3️⃣ Install dependencies
       - name: Install dependencies
         run: npm install
 
+      # 4️⃣ Build the site (Parcel outputs to dist/)
       - name: Build site
         run: npm run build
 
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v1
+      # 5️⃣ Configure Pages deployment
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v5
+
+      # 6️⃣ Upload the dist folder as artifact
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
           artifact-path: dist
+
+      # 7️⃣ Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
